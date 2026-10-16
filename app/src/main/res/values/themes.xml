@@ -10,4 +10,5 @@
         <item name="windowSplashScreenIconBackgroundColor">@color/C_3DDC84</item>
         <item name="postSplashScreenTheme">@style/Theme.Sample</item>
     </style>
+
 </resources>

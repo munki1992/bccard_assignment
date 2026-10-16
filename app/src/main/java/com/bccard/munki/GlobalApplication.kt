@@ -1,6 +1,10 @@
 package com.bccard.munki
 
 import android.app.Application
+import com.bccard.munki.di.network.config.httpModule
+import com.bccard.munki.di.network.impl.apiImplModule
+import com.bccard.munki.di.network.service.apiServiceModule
+import com.bccard.munki.foundation.di.composeModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import timber.log.Timber
@@ -32,6 +36,14 @@ class GlobalApplication : Application() {
     private fun initKoin() {
         startKoin {
             androidContext(instance)
+            modules(
+                listOf(
+                    httpModule,
+                    apiServiceModule,
+                    apiImplModule,
+                    composeModule,
+                )
+            )
         }
     }
 }
