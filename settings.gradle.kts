@@ -23,5 +23,5 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "bccard_munki"
-include(":app")
+include(":app", ":core", ":domain", ":data", ":di")
  
