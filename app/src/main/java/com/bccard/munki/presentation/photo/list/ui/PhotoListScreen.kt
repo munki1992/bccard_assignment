@@ -24,7 +24,9 @@ import com.bccard.munki.foundation.base.BaseScreen
 import com.bccard.munki.foundation.theme.AppTheme
 import com.bccard.munki.foundation.ui.toErrorMessage
 import com.bccard.munki.presentation.photo.list.PhotoListContract.PhotoListIntent
+import com.bccard.munki.presentation.photo.list.PhotoListContract.PhotoListIntent.ClickFavorites
 import com.bccard.munki.presentation.photo.list.PhotoListContract.PhotoListIntent.ClickPhoto
+import com.bccard.munki.presentation.photo.list.PhotoListContract.PhotoListIntent.ToggleLike
 import com.bccard.munki.presentation.photo.list.PhotoListContract.PhotoListState
 import com.bccard.munki.presentation.photo.list.ui.components.PhotoListTopBar
 
@@ -43,7 +45,7 @@ fun PhotoListScreen(
     val append  = photos.loadState.append
 
     BaseScreen(
-        topBar = { PhotoListTopBar() }
+        topBar = { PhotoListTopBar(onFavoritesClick = { onIntent(ClickFavorites) }) }
     ) { _, innerPadding ->
         when (refresh) {
 
@@ -82,9 +84,9 @@ fun PhotoListScreen(
                     photos[index]?.let { photo ->
                         PhotoCard(
                             photo = photo,
-                            isLiked = false,
+                            isLiked = photo.id in state.likedIds,
                             onClick = { photo.id?.let { onIntent(ClickPhoto(it)) } },
-                            onLikeClick = {}
+                            onLikeClick = { onIntent(ToggleLike(photo)) }
                         )
                     }
                 }

@@ -2,7 +2,6 @@ package com.bccard.munki.di.network.config
 
 import com.bccard.munki.core.BuildConfig
 import com.bccard.munki.core.common.DeviceInfo
-import com.bccard.munki.core.consts.Constants
 import com.bccard.munki.core.consts.HttpConst
 import com.bccard.munki.core.networks.retrofit.BaseRetrofitBuilder
 import okhttp3.Authenticator
@@ -33,7 +32,7 @@ class AppRetrofitBuilder(
             val builder = chain.request().newBuilder()
 
             // Unsplash 공개 API 인증 — Authorization: Client-ID {Access Key}
-            Constants.UNSPLASH_ACCESS_KEY.takeIf { it.isNotBlank() }?.let {
+            BuildConfig.UNSPLASH_ACCESS_KEY.takeIf { it.isNotBlank() }?.let {
                 builder.addHeader(HttpConst.REST_AUTHORIZATION, "${HttpConst.REST_CLIENT_ID} $it")
             }
 

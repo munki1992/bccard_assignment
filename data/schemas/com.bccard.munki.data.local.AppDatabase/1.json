@@ -1,0 +1,92 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "2feedfd2ef30abaef0f436dc258efc1f",
+    "entities": [
+      {
+        "tableName": "liked_photo",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `width` INTEGER, `height` INTEGER, `color` TEXT, `description` TEXT, `alt_description` TEXT, `small_url` TEXT, `regular_url` TEXT, `user_name` TEXT, `user_username` TEXT, `user_profile_url` TEXT, `liked_at` INTEGER NOT NULL, `local_image_path` TEXT, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "width",
+            "columnName": "width",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "height",
+            "columnName": "height",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "color",
+            "columnName": "color",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "altDescription",
+            "columnName": "alt_description",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "smallUrl",
+            "columnName": "small_url",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "regularUrl",
+            "columnName": "regular_url",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "userName",
+            "columnName": "user_name",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "userUsername",
+            "columnName": "user_username",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "userProfileUrl",
+            "columnName": "user_profile_url",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "likedAt",
+            "columnName": "liked_at",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "localImagePath",
+            "columnName": "local_image_path",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        }
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '2feedfd2ef30abaef0f436dc258efc1f')"
+    ]
+  }
+}

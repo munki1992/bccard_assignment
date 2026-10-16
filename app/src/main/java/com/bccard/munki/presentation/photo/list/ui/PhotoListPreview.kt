@@ -23,7 +23,7 @@ private fun PhotoListScreenPreview() {
 
     AppTheme {
         PhotoListScreen(
-            state = PhotoListState(),
+            state = PhotoListState(likedIds = setOf("0")),
             photos = flowOf(PagingData.from(photos)).collectAsLazyPagingItems(),
             onIntent = {}
         )

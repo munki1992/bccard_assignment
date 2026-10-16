@@ -1,2 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest />
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- GallerySaveRepoImpl — Android 9(API 28) 이하에서 공용 Pictures 폴더에 사진 저장. 10 이상은 MediaStore 라 필요 없음 -->
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
+
+</manifest>

@@ -19,4 +19,7 @@ sealed class AppRoute {
 
     @Serializable
     data class PhotoDetail(val photoId: String) : AppRoute()
+
+    @Serializable
+    data object PhotoFavorite : AppRoute()
 }

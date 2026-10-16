@@ -18,6 +18,12 @@ object PhotoDetailContract {
 
     sealed interface PhotoDetailIntent {
         data object ToggleLike : PhotoDetailIntent
+
+        // 저장 권한 확인이 끝난 뒤 (Route 가 권한을 처리하고 보낸다)
+        data object Download : PhotoDetailIntent
+
+        // 저장 권한 거부 (Android 9 이하)
+        data object DownloadPermissionDenied : PhotoDetailIntent
     }
 
     sealed interface PhotoDetailEffect

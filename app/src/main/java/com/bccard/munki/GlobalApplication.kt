@@ -1,6 +1,7 @@
 package com.bccard.munki
 
 import android.app.Application
+import com.bccard.munki.di.local.localModule
 import com.bccard.munki.di.network.config.httpModule
 import com.bccard.munki.di.network.impl.apiImplModule
 import com.bccard.munki.di.network.service.apiServiceModule
@@ -38,6 +39,7 @@ class GlobalApplication : Application() {
             androidContext(instance)
             modules(
                 listOf(
+                    localModule,
                     httpModule,
                     apiServiceModule,
                     apiImplModule,

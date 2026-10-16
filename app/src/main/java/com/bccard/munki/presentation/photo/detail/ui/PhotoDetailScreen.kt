@@ -49,7 +49,7 @@ fun PhotoDetailScreen(
                     IconButton(onClick = onDownloadClick, enabled = state.photo != null) {
                         Icon(
                             painter = painterResource(R.drawable.ic_download),
-                            contentDescription = stringResource(R.string.str_photo_detail_downloads),
+                            contentDescription = stringResource(R.string.str_photo_detail_download),
                             tint = AppTheme.colors.textStrong
                         )
                     }

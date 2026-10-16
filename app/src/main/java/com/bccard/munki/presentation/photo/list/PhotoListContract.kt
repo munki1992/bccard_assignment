@@ -1,5 +1,7 @@
 package com.bccard.munki.presentation.photo.list
 
+import com.bccard.munki.domain.model.network.photo.Photo
+
 /**
  * Photo List Contract
  *
@@ -7,10 +9,16 @@ package com.bccard.munki.presentation.photo.list
  */
 object PhotoListContract {
 
-    class PhotoListState
+    data class PhotoListState(
+        val likedIds: Set<String> = emptySet()                                                      // 좋아요한 사진 ID
+    )
 
     sealed interface PhotoListIntent {
+        data class ToggleLike(val photo: Photo) : PhotoListIntent
+
         data class ClickPhoto(val photoId: String) : PhotoListIntent
+
+        data object ClickFavorites : PhotoListIntent
     }
 
     sealed interface PhotoListEffect

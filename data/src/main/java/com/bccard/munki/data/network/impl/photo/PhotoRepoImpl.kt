@@ -8,6 +8,7 @@ import com.bccard.munki.core.consts.Constants
 import com.bccard.munki.data.network.impl.BaseRepoImpl
 import com.bccard.munki.data.network.service.photo.PhotoApi
 import com.bccard.munki.domain.model.network.photo.Photo
+import com.bccard.munki.domain.model.network.photo.PhotoDownloadDTO
 import com.bccard.munki.domain.repository.network.photo.PhotoRepo
 import kotlinx.coroutines.flow.Flow
 
@@ -34,4 +35,9 @@ class PhotoRepoImpl(
 
     // 사진 상세
     override suspend fun photoDetail(id: String) = request { api.photoDetail(id) }
+
+    // 다운로드 추적 (다운로드 전 필수 호출)
+    override suspend fun photoDownload(photo: Photo) = request {
+        api.trackDownload(photo.links?.downloadLocation ?: PhotoDownloadDTO.URL.replace("{id}", photo.id.orEmpty()))
+    }
 }

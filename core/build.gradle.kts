@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.ksp)
@@ -19,6 +21,11 @@ android {
         val isRealServer = libs.versions.isRealServer.get().toBoolean()
         val baseUrl = providers.gradleProperty(if (isRealServer) "baseUrlProduction" else "baseUrlDevelopment").get()
         buildConfigField("String", "BASE_URL", "\"$baseUrl\"")
+
+        val localProperties = Properties().apply {
+            providers.fileContents(rootProject.layout.projectDirectory.file("local.properties")).asText.orNull?.let { load(it.reader()) }
+        }
+        buildConfigField("String", "UNSPLASH_ACCESS_KEY", "\"${localProperties.getProperty("UNSPLASH_ACCESS_KEY").orEmpty()}\"")
     }
 
     buildFeatures {
