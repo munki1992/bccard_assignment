@@ -5,8 +5,11 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.navigation.compose.rememberNavController
+import com.bccard.munki.foundation.navigation.app.AppNavHost
+import com.bccard.munki.foundation.navigation.app.appNavGraph
+import com.bccard.munki.foundation.navigation.app.rememberAppNavigator
 import com.bccard.munki.foundation.theme.AppTheme
-import com.bccard.munki.presentation.sample.SampleScreenRoute
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 /**
@@ -25,8 +28,13 @@ class MainActivity : ComponentActivity() {
         viewModel
 
         setContent {
+            val navController = rememberNavController()
+            val appNavigator  = rememberAppNavigator(navController)
+
             AppTheme {
-                SampleScreenRoute()
+                AppNavHost(navController = navController) {
+                    appNavGraph(appNavigator)
+                }
             }
         }
     }
