@@ -93,13 +93,31 @@ domain → core
 | Paging | Paging3 (paging-common, paging-compose) |
 | Local DB | Room |
 | 기타 | Coroutines/Flow, Timber, Kotlinx Serialization (내비게이션 경로) |
+| Test | JUnit4, Coroutines Test, Turbine, MockK, MockWebServer, Robolectric |
 
 ## 테스트
 
 ```
+// 테스트
 ./gradlew testDebugUnitTest
+
+// 테스트 (초기화)
+./gradlew testDebugUnitTest --rerun-tasks
 ```
 
-| 대상 | 내용 |
-|---|---|
-|  |  |
+로컬 단위 테스트(JVM)로 기기 없이 실행합니다.
+
+| 모듈 | 대상 | 내용 |
+|---|---|---|
+| `data` | `LikedPhotoMapper` | 사진 ↔ 엔티티 변환 (ID 없으면 저장 안 함, 저장하지 않는 값은 비워 둠) |
+| `data` | `PhotoPagingSource` | 1페이지부터 요청, 다음 페이지 번호, 빈 페이지면 끝, 중복 사진 제거, API 에러 |
+| `data` | `LikeRepoImpl` | 좋아요 추가 · 취소, 이미지 파일 경로 기록, 이미지 받는 중 좋아요 취소 시 파일 삭제 |
+| `data` | `PhotoRepoImpl` | 인터넷 없음 처리, 401 재요청, 서버 에러, 다운로드 추적 주소 선택 (`download_location` / `photos/{id}/download`) |
+| `data` | `ImageDownloader` | 가짜 서버(MockWebServer)로 받기 성공 · 서버 에러 · 연결 실패 · 쓰기 실패 |
+| `app` | `PhotoListViewModel` | 좋아요 상태 반영, 하트 토글, 상세 · 좋아요 목록 화면 이동 |
+| `app` | `PhotoFavoriteViewModel` | 좋아요 목록 표시, 하트 끄면 목록에서 제거, 상세 화면 이동 |
+| `app` | `PhotoDetailViewModel` | 상세 표시, **오프라인일 때 저장해 둔 정보 표시**, 오류 토스트, 다운로드 성공 · 실패, 권한 거부 |
+
+- 테스트는 `준비 / 실행 / 확인` 순서로 주석을 달았습니다.
+- `PhotoDetailViewModel` 은 `SavedStateHandle.toRoute()` 가 안드로이드 `Bundle` 을 사용해 Robolectric 으로 실행합니다.
+- 갤러리 저장(`GallerySaveRepoImpl`)은 MediaStore 를 사용해 단위 테스트에서 제외했습니다.

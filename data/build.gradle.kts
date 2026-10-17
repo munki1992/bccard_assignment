@@ -30,4 +30,10 @@ dependencies {
 
     implementation(libs.bundles.data.dependencies)
     ksp(libs.room.compiler)
+
+    // Test
+    testImplementation(libs.junit)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.mockk)
+    testImplementation(libs.okhttp.mockwebserver)
 }

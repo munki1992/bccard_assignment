@@ -16,18 +16,9 @@ import kotlinx.coroutines.launch
  */
 class LikeRepoImpl(
     private val dao: LikedPhotoDao,
-    private val imageStore: LikedImageStore
+    private val imageStore: LikedImageStore,
+    private val scope: CoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 ) : LikeRepo {
-
-    // Val -------------------------------------------------------------------------------------- //
-
-
-    // 이미지 파일 저장용 코루틴 스코프
-    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
-
-
-    // Override --------------------------------------------------------------------------------- //
-
 
     // 좋아요한 사진 ID 전체 — 목록 하트 표시용
     override val likedIds: Flow<Set<String>> = dao.observeLikedIds().map { it.toSet() }
