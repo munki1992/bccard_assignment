@@ -1,5 +1,7 @@
 # Unsplash Photo Explorer
 
+[![Unit Test](https://github.com/munki1992/bccard_assignment/actions/workflows/unit-test.yml/badge.svg)](https://github.com/munki1992/bccard_assignment/actions/workflows/unit-test.yml)
+
 Unsplash API로 사진을 탐색하고, 마음에 드는 사진을 로컬에 저장(좋아요)하는 Android 앱입니다.
 
 ## 실행 방법
