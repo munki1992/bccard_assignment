@@ -1,0 +1,42 @@
+# Actions 화면에 보일 이름
+name: Unit Test
+
+# main 에 push 하거나 PR 을 만들면 실행
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    # GitHub 의 Ubuntu 컴퓨터에서 실행
+    runs-on: ubuntu-latest
+
+    steps:
+      # 저장소 코드 내려받기
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Java 21 설치
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      # Gradle 준비 + 캐시 (두 번째 실행부터 빨라짐)
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      # 로컬에서 쓰던 단위 테스트 명령어 실행
+      - name: Run unit tests
+        run: ./gradlew testDebugUnitTest
+
+      # 테스트 HTML 리포트를 결과 화면에 저장 (실패해도 저장)
+      - name: Upload test reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports
+          path: '**/build/reports/tests/testDebugUnitTest/'
