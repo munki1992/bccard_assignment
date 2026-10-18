@@ -26,7 +26,7 @@ val localModule = module {
 
     // ===== Network (이미지 파일 다운로드용 — API Retrofit 과 별개) =====
     single { OkHttpClient() }
-    single { ImageDownloader(get()) }                                                        // GallerySaveRepo · LikedImageStore 공용
+    single { ImageDownloader(get()) }                                          // GallerySaveRepo · LikedImageStore 공용
 
     // ===== File (좋아요 사진 오프라인용 이미지) =====
     single { LikedImageStore(androidContext(), get()) }                        // LikeRepo

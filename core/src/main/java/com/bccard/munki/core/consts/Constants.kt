@@ -12,4 +12,5 @@ object Constants {
     const val DATABASE_NAME                     = "unsplash_explorer.db"                            // 기기에 저장되는 Room DB 파일 이름 (배포 후 바꾸면 기존 데이터가 안 보임)
     const val GALLERY_FOLDER                    = "UnsplashExplorer"                                // 다운로드한 사진을 저장할 갤러리 폴더 (Pictures 아래)
     const val IMAGE_MIME_TYPE                   = "image/jpeg"                                      // 저장하는 사진 파일 형식
+    const val TRANSITION_DURATION               = 300                                               // 화면 이동 애니메이션 시간 (ms)
 }

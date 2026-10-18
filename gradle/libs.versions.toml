@@ -126,6 +126,8 @@ turbine                                 = { module = "app.cash.turbine:turbine",
 mockk                                   = { module = "io.mockk:mockk",                                      version.ref = "mockk" }
 okhttp-mockwebserver                    = { module = "com.squareup.okhttp3:mockwebserver",                  version.ref = "okhttp" }
 robolectric                             = { module = "org.robolectric:robolectric",                         version.ref = "robolectric" }
+androidx-compose-ui-test-junit4         = { module = "androidx.compose.ui:ui-test-junit4" }
+androidx-compose-ui-test-manifest       = { module = "androidx.compose.ui:ui-test-manifest" }
 
 [plugins]
 
@@ -147,6 +149,21 @@ app-dependencies                        = [
     "timber",
     "androidx-core-ktx",
     "androidx-lifecycle-runtime-ktx",
+]
+
+# App 모듈 테스트 전용
+app-test-dependencies                   = [
+    "junit",
+    "kotlinx-coroutines-test",
+    "turbine",
+    "robolectric",
+    "androidx-compose-ui-test-junit4",
+]
+
+# App 모듈 계측 테스트 전용
+app-android-test-dependencies           = [
+    "androidx-junit",
+    "androidx-espresso-core",
 ]
 
 # Core 모듈 전용
@@ -184,6 +201,14 @@ data-dependencies                       = [
     "okhttp",
     "room-runtime",
     "kotlinx-coroutines-android",
+]
+
+# Data 모듈 테스트 전용
+data-test-dependencies                  = [
+    "junit",
+    "kotlinx-coroutines-test",
+    "mockk",
+    "okhttp-mockwebserver",
 ]
 
 # Compose

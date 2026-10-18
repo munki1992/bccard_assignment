@@ -3,6 +3,8 @@ package com.bccard.munki.presentation.photo.favorite
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.bccard.munki.components.handler.GlobalBackHandler
+import com.bccard.munki.core.foundation.state.BackState
 import com.bccard.munki.foundation.base.HandleEffects
 import com.bccard.munki.foundation.navigation.app.AppNavigator
 import com.bccard.munki.foundation.ui.rememberScreenEnv
@@ -22,6 +24,9 @@ fun PhotoFavoriteScreenRoute(appNavigator: AppNavigator) {
 
     // Effect
     HandleEffects(mViewModel, appNavigator, env)
+
+    // 하단 뒤로가기 버튼도 상단 뒤로가기와 같은 경로(ViewModel.onBack)로 처리 — 같은 화면 전환 애니메이션
+    GlobalBackHandler(BackState.Custom { mViewModel.onBack() })
 
     // UI
     PhotoFavoriteScreen(

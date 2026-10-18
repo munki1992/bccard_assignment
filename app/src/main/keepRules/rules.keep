@@ -10,3 +10,22 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+# Firebase Crashlytics - 크래시 리포트에 파일 이름 · 줄 번호 유지 (mapping 파일로 원래 이름 복원)
+-keepattributes SourceFile,LineNumberTable
+
+# 실제 파일 이름 대신 "SourceFile" 로 표시 (줄 번호는 유지, 원래 이름은 mapping 으로 복원)
+-renamesourcefileattribute SourceFile
+
+# 직접 만든 Exception 클래스 이름 유지 (크래시 리포트에서 예외 종류 확인용)
+-keep public class * extends java.lang.Exception
+
+# 릴리스 빌드에서 android.util.Log 호출 제거 (앱 · 라이브러리 로그로 인한 정보 노출 방지)
+-assumenosideeffects class android.util.Log {
+    public static boolean isLoggable(java.lang.String, int);
+    public static int v(...);
+    public static int d(...);
+    public static int i(...);
+    public static int w(...);
+    public static int e(...);
+}
