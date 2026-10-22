@@ -1,0 +1,18 @@
+# Dependabot - 보안 업데이트만 받는다 (취약점이 발견된 라이브러리만 PR 생성)
+# open-pull-requests-limit: 0 → 일반 버전 업데이트 PR 은 만들지 않음 (보안 업데이트는 영향 없음)
+# 보안 업데이트 PR 을 받으면 해당 브랜치에서 bundle exec fastlane verification_metadata 실행 후 커밋 (종속 항목 확인 지문 갱신)
+version: 2
+updates:
+  # 라이브러리 (gradle/libs.versions.toml)
+  - package-ecosystem: "gradle"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 0
+
+  # GitHub Actions (.github/workflows/*.yml)
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 0

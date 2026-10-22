@@ -3,6 +3,7 @@ package com.bccard.munki.core.networks.retrofit
 import com.bccard.munki.core.BuildConfig
 import com.bccard.munki.core.extensions.moshi
 import okhttp3.Authenticator
+import okhttp3.ConnectionSpec
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -31,6 +32,7 @@ abstract class BaseRetrofitBuilder(
             .connectTimeout(TIMEOUT, TimeUnit.SECONDS)
             .readTimeout(TIMEOUT, TimeUnit.SECONDS)
             .writeTimeout(TIMEOUT, TimeUnit.SECONDS)
+//            .connectionSpecs(listOf(ConnectionSpec.MODERN_TLS))                 // TLS 1.2 이상 + 안전한 암호화 조합만 허용 (구버전 TLS 다운그레이드 차단)
     }
 
     val retrofit: Retrofit by lazy {
