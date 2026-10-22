@@ -1,38 +1,41 @@
-# This file contains the fastlane.tools configuration
-# You can find the documentation at https://docs.fastlane.tools
-#
-# For a list of all available actions, check out
-#
-#     https://docs.fastlane.tools/actions
-#
-# For a list of all available plugins, check out
-#
-#     https://docs.fastlane.tools/plugins/available-plugins
-#
-
-# Uncomment the line if you want fastlane to automatically update itself
-# update_fastlane
-
 default_platform(:android)
 
 platform :android do
-  desc "Runs all the tests"
-  lane :test do
-    gradle(task: "test")
+  desc "[검사] 코드를 바꿀 때마다 실행 — baseline 에 없는 새 이슈가 있으면 실패 (보안 항목은 fatal)"
+  lane :lint do
+    gradle(task: ":app:lintDebug")
   end
 
-  desc "Submit a new Beta Build to Crashlytics Beta"
-  lane :beta do
-    gradle(task: "clean assembleRelease")
-    crashlytics
-  
-    # sh "your_script.sh"
-    # You can also use other beta testing services here
+  desc "[정리] baseline 에 있던 이슈를 고쳤을 때만 실행 — 먼저 lint 로 새 이슈가 없는지 확인할 것"
+  lane :lint_baseline do
+    gradle(task: ":app:updateLintBaseline")
   end
 
-  desc "Deploy a new version to the Google Play"
-  lane :deploy do
-    gradle(task: "clean assembleRelease")
-    upload_to_play_store
+  desc "[의존성 검증] 라이브러리를 추가하거나 버전을 올렸을 때 실행 — gradle/verification-metadata.xml 의 지문(SHA-256) 갱신"
+  lane :verification_metadata do
+    gradle(
+      tasks: ["help", ":app:assembleDebug", ":app:assembleRelease", ":app:lintRelease", ":app:lintDebug", "testDebugUnitTest", ":app:assembleDebugAndroidTest"],
+      flags: "--write-verification-metadata sha256 --refresh-dependencies"
+    )
+
+    # IDE(Android Studio) Sync 가 받는 소스 · javadoc · Gradle 소스(src.zip) 는 앱에 들어가지 않으므로 검증 예외 — 파일을 새로 만들어도 빠진 규칙만 자동으로 채운다
+    metadata = File.expand_path("../gradle/verification-metadata.xml", __dir__)
+    xml = File.read(metadata)
+    rules = [
+      "<trust file=\".*-javadoc[.]jar\" regex=\"true\"/>",
+      "<trust file=\".*-sources[.]jar\" regex=\"true\"/>",
+      "<trust group=\"gradle\" name=\"gradle\"/>"
+    ]
+    missing = rules.reject { |rule| xml.include?(rule) }
+    unless missing.empty?
+      lines = missing.map { |rule| "         #{rule}" }.join("\n")
+      xml = if xml.include?("</trusted-artifacts>")
+        xml.sub("      </trusted-artifacts>", "#{lines}\n      </trusted-artifacts>")
+      else
+        xml.sub("   </configuration>", "      <trusted-artifacts>\n#{lines}\n      </trusted-artifacts>\n   </configuration>")
+      end
+      File.write(metadata, xml)
+      UI.message("verification-metadata.xml 에 신뢰 규칙 #{missing.size}개 추가")
+    end
   end
 end
