@@ -132,7 +132,6 @@ android {
     }
 }
 
-// ./gradlew --write-verification-metadata sha256 --refresh-dependencies help :app:assembleDebug :app:assembleRelease :app:lintRelease :app:lintDebug testDebugUnitTest :app:assembleDebugAndroidTest (= bundle exec fastlane verification_metadata)
 dependencies {
     listOf(":di", ":domain", ":core").forEach { implementation(project(it)) }
 

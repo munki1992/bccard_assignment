@@ -1,18 +1,22 @@
-# Dependabot - 보안 업데이트만 받는다 (취약점이 발견된 라이브러리만 PR 생성)
-# open-pull-requests-limit: 0 → 일반 버전 업데이트 PR 은 만들지 않음 (보안 업데이트는 영향 없음)
-# 보안 업데이트 PR 을 받으면 해당 브랜치에서 bundle exec fastlane verification_metadata 실행 후 커밋 (종속 항목 확인 지문 갱신)
+# Dependabot
+# - Gradle 라이브러리 : 보안 업데이트만 받는다 (open-pull-requests-limit: 0 → 일반 버전 업데이트 PR 은 만들지 않음, 보안 업데이트는 영향 없음)
+#   보안 업데이트 PR 을 받으면 해당 브랜치에서 bundle exec fastlane verification_metadata 실행 후 커밋 (종속 항목 확인 지문 갱신)
+# - GitHub Actions : 새 버전이 나오면 PR 하나로 묶어서 받는다 (Node.js 지원 종료 등 Actions 경고 대응, 지문 갱신 필요 없음)
 version: 2
 updates:
   # 라이브러리 (gradle/libs.versions.toml)
   - package-ecosystem: "gradle"
-    directory: "/"
+    directory: "/"                    # 루트에서 Gradle 설정(libs.versions.toml · build.gradle.kts)을 찾는다
     schedule:
-      interval: "weekly"
-    open-pull-requests-limit: 0
+      interval: "weekly"              # 매주 검사
+    open-pull-requests-limit: 0       # 일반 버전 업데이트 PR 끄기 (보안 업데이트 PR 은 별도 한도라 그대로 생성)
 
   # GitHub Actions (.github/workflows/*.yml)
   - package-ecosystem: "github-actions"
-    directory: "/"
+    directory: "/"                    # 루트 기준 .github/workflows 의 워크플로를 찾는다
     schedule:
-      interval: "weekly"
-    open-pull-requests-limit: 0
+      interval: "weekly"              # 매주 검사
+    groups:                           # 여러 액션 업데이트를 PR 하나로 묶는다 (없으면 액션마다 PR 이 따로 생김)
+      github-actions:                 # 묶음 이름 (PR 제목에 "Bump the github-actions group ..." 으로 표시)
+        patterns:
+          - "*"                       # 모든 액션을 이 묶음에 포함
