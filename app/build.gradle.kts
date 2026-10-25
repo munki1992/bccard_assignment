@@ -7,7 +7,7 @@ plugins {
     alias(libs.plugins.kotlin.parcelize)
 //    alias(libs.plugins.google.services)
 //    alias(libs.plugins.firebase.crashlytics)
-//    alias(libs.plugins.baselineprofile)
+    alias(libs.plugins.baselineprofile)
 }
 
 // 릴리스 서명키 정보
@@ -132,6 +132,13 @@ android {
     }
 }
 
+// Baseline Profile 생성용 빌드(nonMinifiedRelease)는 R8 미적용
+androidComponents {
+    finalizeDsl { extension ->
+        extension.buildTypes.findByName("nonMinifiedRelease")?.optimization { enable = false }
+    }
+}
+
 dependencies {
     listOf(":di", ":domain", ":core").forEach { implementation(project(it)) }
 
@@ -141,6 +148,10 @@ dependencies {
     // Firebase
     implementation(platform(libs.firebase.bom))
     implementation(libs.bundles.firebase)
+
+    // Baseline Profile — 앱 설치 시 프로파일을 미리 컴파일 (baselineprofile 모듈에서 생성)
+    implementation(libs.androidx.profileinstaller)
+    baselineProfile(project(":baselineprofile"))
 
     // Compose
     implementation(platform(libs.androidx.compose.bom))

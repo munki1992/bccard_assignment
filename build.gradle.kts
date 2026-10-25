@@ -4,10 +4,12 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent
 plugins {
     alias(libs.plugins.android.application) apply false
     alias(libs.plugins.android.library) apply false
+    alias(libs.plugins.android.test) apply false
     alias(libs.plugins.kotlin.compose) apply false
     alias(libs.plugins.kotlin.serialization) apply false
     alias(libs.plugins.ksp) apply false
     alias(libs.plugins.room) apply false
+    alias(libs.plugins.baselineprofile) apply false
 }
 
 // 단위 테스트 실행 시 터미널에 테스트별 이름과 결과(통과 · 실패 · 건너뜀) 출력
